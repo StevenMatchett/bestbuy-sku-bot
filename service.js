@@ -51,7 +51,7 @@ const promiseResolver = async (promise) => {
             clearTimeout(timer)
             resolve(null)
         })
-        
+
     })
 }
 
@@ -63,9 +63,18 @@ const found = (res) => {
     })
 }
 
+let resolved = 0;
+
+const speed = () => {
+    setTimeout(()=>{
+        console.log(`Resolved ${resolved} in 1 min`)
+        resolved = 0;
+        speed();
+    },60000)
+}
+speed();
 const run = async () => {
     for (let i = 0; i < skus.length; i++ ){
-        console.log(url+skus[i])
         let res = fetch(url + skus[i], {
             headers: {...headers}
         });
@@ -79,8 +88,8 @@ const run = async () => {
                     return;
                 }
             }
+            resolved++;
         }
-        console.log(res);
     }
 
     return await run();
